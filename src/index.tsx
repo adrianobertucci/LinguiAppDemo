@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import * as serviceWorker from './serviceWorker';
+
+import { i18n } from "@lingui/core";
+import { I18nProvider } from '@lingui/react'
+import { defaultLocale, dynamicActivate } from './i18n';
+
+const I18nApp = () => {
+  useEffect(() => {
+    // With this method we dynamically load the catalogs
+    dynamicActivate(defaultLocale)
+  }, [])
+
+  return (
+    <I18nProvider i18n={i18n}>
+      <App  />
+    </I18nProvider>
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <I18nApp />
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
+serviceWorker.unregister();
